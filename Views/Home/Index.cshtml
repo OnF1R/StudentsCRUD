@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    //Student[] students = ViewBag.Students;
+}
+
+<div class="text-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="Name">Name</th>
+                <th scope="Surname">Surname</th>
+                <th scope="Age">Age</th>
+                <th scope="Course">Course</th>
+                <th scope="Functions">Functions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Student student in ViewBag.Students)
+            {
+                <tr>
+                    <td id="name_@student.Id">@student.Name</td>
+                    <td id="surname_@student.Id">@student.Surname</td>
+                    <td id="age_@student.Id">@student.Age</td>
+                    <td id="course_@student.Id">@student.Course</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" id="@student.Id" data-bs-toggle="modal" data-bs-target="#editModal" onclick="UpdateStudentId(this)">
+                            Edit
+                        </button>
+                        <a href='@Url.Action("DeleteStudent", "Home", new {id = student.Id})'>
+                            <button type="button" class="btn btn-danger">
+                                Delete
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Studens Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="home/UpdateStudent">
+                    <input for="Id" type="text" class="form-control" id="IdInput" name="id" value="" hidden>
+                    <div class="mb-3">
+                        <label for="Name" class="form-label">Name</label>
+                        <input for="Name" type="text" class="form-control" id="nameEditInput" name="Name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Surname" class="form-label">Surname</label>
+                        <input for="Surname" type="text" class="form-control" id="surnameEditInput" name="Surname">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Age" class="form-label">Age</label>
+                        <input for="Age" type="number" class="form-control" id="ageEditInput" name="Age">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Course" class="form-label">Course</label>
+                        <input for="Course" type="number" class="form-control" id="courseEditInput" name="Course">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function UpdateStudentId(button) {
+        var currentId = button.id;
+        document.getElementById('IdInput').value = currentId;
+        document.getElementById('nameEditInput').value = document.getElementById('name_' + currentId).innerHTML;
+        document.getElementById('surnameEditInput').value = document.getElementById('surname_' + currentId).innerHTML;
+        document.getElementById('ageEditInput').value = document.getElementById('age_' + currentId).innerHTML;
+        document.getElementById('courseEditInput').value = document.getElementById('course_' + currentId).innerHTML;
+    }
+</script>
+
