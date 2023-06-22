@@ -74,7 +74,6 @@ namespace StudentsCRUD.Controllers
         public async Task<RedirectToActionResult> DeleteStudent(int id)
         {
             Student? _student = await _context.Students.FirstOrDefaultAsync(x => x.Id == id);
-
             if (_student != null)
             {
                 _context.Remove(_student);
